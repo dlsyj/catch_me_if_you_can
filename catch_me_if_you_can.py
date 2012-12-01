@@ -9,11 +9,12 @@ import random
 
 min_size = (20,20)
 image_scale = 2
-haar_scale = 1.1
-min_neighbors = 3
-haar_flags = 0
+haar_scale = 1.2
+min_neighbors = 2
+haar_flags = cv.CV_HAAR_DO_CANNY_PRUNING 
 pt1 = pt2 = (0,0) 
 
+frame = 15
 game_time = 60
 health = 10
 time = 0
@@ -63,10 +64,9 @@ def DetectFace(image, faceCascade):
 
     time += 1
     
-    if time/15 == game_time:
+    if time/frame == game_time:
         game_over(True)
 
-    print pt1,pt2,rx,ry
     # Allocate the temporary images
     grayscale = cv.CreateImage((image.width, image.height), 8, 1)
     smallImage = cv.CreateImage((cv.Round(image.width / image_scale),
@@ -114,7 +114,7 @@ def DetectFace(image, faceCascade):
     
     font = cv.InitFont(cv.CV_FONT_HERSHEY_SIMPLEX, 1, 1, 0, 3, 8)
     cv.PutText(stacked, "Health: "+str(10 - count), (0, stacked.height - 20), font, cv.CV_RGB(0, 255, 0))
-    cv.PutText(stacked, "Time: "+ str(game_time - time/15), (stacked.width- 150, stacked.height - 20), font, cv.CV_RGB(0, 255, 0))
+    cv.PutText(stacked, "Time: "+ str(game_time - time/frame), (stacked.width- 150, stacked.height - 20), font, cv.CV_RGB(0, 255, 0))
     
     return stacked
 
@@ -122,12 +122,12 @@ def DetectFace(image, faceCascade):
 capture = cv.CaptureFromCAM(0)
 faceCascade = cv.Load("files/haarcascade_frontalface_alt.xml")
  
-while (cv.WaitKey(15) != 27): # ESC
+while (cv.WaitKey(frame) != 27): # ESC
     
     img = cv.QueryFrame(capture)
     cv.Flip(img, None, 1)
     
     image = DetectFace(img, faceCascade)
     cv.ShowImage("Catch Me If You Can", image)
- 
+  
 del(capture)
