@@ -25,9 +25,9 @@ rx = img_saw.width/2
 ry = img_saw.height/2 
 
 
-def game_over(bool):
+def game_over(state):
     
-    if bool == True:
+    if state == True:
         image_file_name = "files/smiley.jpg"
     else:
         image_file_name = "files/saw.jpg"
