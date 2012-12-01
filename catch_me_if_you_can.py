@@ -2,6 +2,7 @@
  
 #----------------------------------------------------------------------------
 # modified from:  http://www.lucaamore.com/?p=638
+# license : BSD http://opensource.org/licenses/bsd-license.php
 #----------------------------------------------------------------------------
 
 import sys
